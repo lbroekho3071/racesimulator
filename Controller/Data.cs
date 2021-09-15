@@ -1,4 +1,6 @@
-﻿using Model.Classes;
+﻿using System;
+using Model.Classes;
+using Model.Enums;
 
 namespace Controller
 {
@@ -6,9 +8,35 @@ namespace Controller
     {
         public static Competition Competition { get; set; }
 
-        static Data()
+        public static void Initialize()
         {
             Competition = new Competition();
+            
+            AddParticipants();
+            AddTracks();
+        }
+
+        private static void AddParticipants()
+        {
+            foreach (TeamColors color in Enum.GetValues(typeof(TeamColors)))
+            {
+                Competition.Participants.Add(new Driver());
+            }
+        }
+
+        private static void AddTracks()
+        {
+            Competition.Tracks.Enqueue(new Track("Test", new []
+            {
+                SectionTypes.StartGrid, 
+                SectionTypes.RightCorner,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.RightCorner,
+                SectionTypes.Finish,
+            }));
         }
     }
 }
