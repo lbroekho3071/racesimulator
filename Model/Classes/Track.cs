@@ -9,12 +9,12 @@ namespace Model.Classes
         public string Name;
         public LinkedList<Section> Sections;
 
-        public Track(string name, Section[] sections)
+        public Track(string name, SectionTypes[] sections)
         {
             Name = name;
-            foreach (Section section in sections)
+            foreach (SectionTypes section in sections)
             {
-                Sections.AddLast(section);
+                Sections.AddLast(new Section(section));
             }
         }
     }
