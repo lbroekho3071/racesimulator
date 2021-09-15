@@ -7,15 +7,24 @@ namespace Model.Classes
     public class Track
     {
         public string Name;
-        public LinkedList<Section> Sections = new LinkedList<Section>();
+        public LinkedList<Section> Sections;
 
         public Track(string name, SectionTypes[] sections)
         {
             Name = name;
+            Sections = ConvertArrayToLinkedList(sections);
+        }
+
+        private LinkedList<Section> ConvertArrayToLinkedList(SectionTypes[] sections)
+        {
+            LinkedList<Section> sectionList = new LinkedList<Section>();
+
             foreach (SectionTypes section in sections)
             {
-                Sections.AddLast(new Section(section));
+                sectionList.AddLast(new Section(section));
             }
+
+            return sectionList;
         }
     }
 }
