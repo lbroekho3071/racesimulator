@@ -40,7 +40,7 @@ namespace Controller
             }));
         }
 
-        private static void NextRace()
+        public static void NextRace()
         {
             Track track = Competition.NextTrack();
 
