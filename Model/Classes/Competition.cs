@@ -8,9 +8,11 @@ namespace Model.Classes
         public List<IParticipant> Participants;
         public Queue<Track> Tracks;
 
-        // public Track NextTrack()
-        // {
-        //     Tracks.
-        // }
+        public Track NextTrack()
+        {
+            if (Tracks.Count == 0) return null;
+
+            return Tracks.Dequeue();
+        }
     }
 }
