@@ -5,8 +5,8 @@ namespace Model.Classes
 {
     public class Competition
     {
-        public List<IParticipant> Participants;
-        public Queue<Track> Tracks;
+        public List<IParticipant> Participants = new List<IParticipant>();
+        public Queue<Track> Tracks = new Queue<Track>();
 
         public Track NextTrack()
         {

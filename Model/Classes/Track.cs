@@ -7,7 +7,7 @@ namespace Model.Classes
     public class Track
     {
         public string Name;
-        public LinkedList<Section> Sections;
+        public LinkedList<Section> Sections = new LinkedList<Section>();
 
         public Track(string name, SectionTypes[] sections)
         {
