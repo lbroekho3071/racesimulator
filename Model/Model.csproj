@@ -4,9 +4,4 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Controller\Controller.csproj" />
-        <ProjectReference Include="..\Simulator\Simulator.csproj" />
-    </ItemGroup>
-
 </Project>
