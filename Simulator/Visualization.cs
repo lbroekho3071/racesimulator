@@ -46,5 +46,46 @@ namespace Simulator
                 PositionX += 4;
             }
         }
+
+        private static int GetDirection(Section section)
+        {
+            SectionTypes type = section.SectionType;
+
+            switch (type)
+            {
+                case SectionTypes.LeftCorner:
+                    return Clamp(Direction - 1, 0, 3);
+                case SectionTypes.RightCorner:
+                    return Clamp(Direction + 1, 0, 3);
+                default:
+                    return Direction;
+            }
+        }
+
+        private static void SetSectionPosition(Section section)
+        {
+            section.Position = Position;
+
+            switch (Direction)
+            {
+                case 0:
+                    Position.Y -= 4;
+                    break;
+                case 1:
+                    Position.X += 4;
+                    break;
+                case 2:
+                    Position.Y += 4;
+                    break;
+                case 3:
+                    Position.X -= 4;
+                    break;
+            }
+        }
+        
+        private static int Clamp( int value, int min, int max )
+        {
+            return (value < min) ? max : (value > max) ? min : value;
+        }
     }
 }
