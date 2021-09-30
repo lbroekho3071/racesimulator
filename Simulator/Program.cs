@@ -12,6 +12,11 @@ namespace Simulator
             Data.NextRace();
             Visualization.Initialize();
             Visualization.DrawTrack(Data.CurrentRace.Track);
+            
+            for (; ; )
+            {
+                Thread.Sleep(100);
+            }
         }
     }
 }

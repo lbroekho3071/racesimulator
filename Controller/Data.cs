@@ -29,14 +29,12 @@ namespace Controller
         {
             Competition.Tracks.Enqueue(new Track("Test", new []
             {
-                SectionTypes.StartGrid, 
                 SectionTypes.RightCorner,
                 SectionTypes.RightCorner,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
                 SectionTypes.RightCorner,
-                SectionTypes.Finish,
             }));
         }
 
