@@ -12,10 +12,10 @@ namespace Simulator
     public static class Visualization
     {
         #region graphics
-
-        public static int PositionX = 20;
-        public static int PositionY;
         
+        public static Point Position = new Point(20, 0);
+        public static int Direction = 1;
+
         public static Dictionary<SectionTypes, string[]> VisualEnums = new Dictionary<SectionTypes, string[]>();
         
         public static void Initialize()
@@ -33,17 +33,15 @@ namespace Simulator
             foreach (Section section in track.Sections)
             {
                 string[] visuals = VisualEnums[section.SectionType];
+                
+                Direction = GetDirection(section);
+                SetSectionPosition(section);
 
-                foreach (string visual in visuals)
+                for (int i = 0; i < visuals.Length; i++)
                 {
-                    Console.SetCursorPosition(PositionX, PositionY);
-                    Console.WriteLine(visual);
-                
-                    PositionY++;
+                    Console.SetCursorPosition(section.Position.X, section.Position.Y + i);
+                    Console.WriteLine(visuals[i]);
                 }
-                
-                PositionY -= 4;
-                PositionX += 4;
             }
         }
 
