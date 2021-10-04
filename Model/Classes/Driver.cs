@@ -9,5 +9,11 @@ namespace Model.Classes
         public int Points { get; set; }
         public IEquipment Equipment { get; set; }
         public TeamColors TeamColor { get; set; }
+
+        public Driver(string name, TeamColors color)
+        {
+            Name = name;
+            TeamColor = color;
+        }
     }
 }
