@@ -11,8 +11,6 @@ namespace Simulator
 {
     public static class Visualization
     {
-        #region graphics
-        
         public static Point Position = new Point(20, 0);
         public static Track Track;
         public static int Direction = 1;
@@ -47,13 +45,10 @@ namespace Simulator
 
         public static void DrawTrack()
         {
-            foreach (Section section in track.Sections)
+            foreach (Section section in Track.Sections)
             {
-                string[] visuals = VisualEnums[section.SectionType];
+                string[] visuals = section.VisualTrack;
                 
-                Direction = GetDirection(section);
-                SetSectionPosition(section);
-
                 for (int i = 0; i < visuals.Length; i++)
                 {
                     Console.SetCursorPosition(section.Position.X, section.Position.Y + i);
@@ -61,25 +56,25 @@ namespace Simulator
                 }
             }
         }
-
-        private static int GetDirection(Section section)
+        private static void SetDirection(Section section)
         {
             SectionTypes type = section.SectionType;
 
             switch (type)
             {
                 case SectionTypes.LeftCorner:
-                    return Clamp(Direction - 1, 0, 3);
+                    Direction = Clamp(Direction - 1, 0, 3);
+                    break;
                 case SectionTypes.RightCorner:
-                    return Clamp(Direction + 1, 0, 3);
-                default:
-                    return Direction;
+                    Direction = Clamp(Direction + 1, 0, 3);
+                    break;
             }
         }
 
         private static void SetSectionPosition(Section section)
         {
             section.Position = Position;
+            section.Direction = Direction;
 
             switch (Direction)
             {
