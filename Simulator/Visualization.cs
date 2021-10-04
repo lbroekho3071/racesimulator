@@ -16,18 +16,18 @@ namespace Simulator
         public static int Direction = 1;
         
         #region graphics
-        public static string[] StraightHorizontal = new[] {"----", "    ", "    ", "----"};
-        public static string[] StraightVertical = new[] {"|  |", "|  |", "|  |", "|  |"};
+        public static string[] StraightHorizontal = new[] {"----", "  1 ", " 2  ", "----"};
+        public static string[] StraightVertical = new[] {"|  |", "|1 |", "| 2|", "|  |"};
 
-        public static string[] CornerNorthWest = new[] {"/  |", "   |", "   /", "--/ "};
-        public static string[] CornerNorthEast = new[] {" /--", "/   ", "|   ", "|  /"};
-        public static string[] CornerSouthWest = new[] {"--\\ ", "   \\", "   |", "\\  |"};
-        public static string[] CornerSouthEast = new[] {"|  \\", "|   ", "\\   ", "\\-- "};
+        public static string[] CornerNorthWest = new[] {"/  |", " 1 |", "  2/", "--/ "};
+        public static string[] CornerNorthEast = new[] {" /--", "/1  ", "| 2 ", "|  /"};
+        public static string[] CornerSouthWest = new[] {"--\\ ", "  1\\", " 2 |", "\\  |"};
+        public static string[] CornerSouthEast = new[] {"|  \\", "| 1 ", "\\2  ", " \\-- "};
 
-        public static string[] StartGridHortizontal = new[] {"----", "  # ", "  # ", "----"};
+        public static string[] StartGridHortizontal = new[] {"----", "  1#", "2#  ", "----"};
         public static string[] StartGridVertical = new[] {"|  |", "|# |", "| #|", "|  |"};
         
-        public static string[] FinishHorizontal = new[] {"--|-", "  | ", "  | ", "--|-"};
+        public static string[] FinishHorizontal = new[] {"--|-", " 1| ", " 2| ", "--|-"};
         public static string[] FinishVertical = new[] {"|  |", "|  |", "----", "|  |"};
         #endregion
 
@@ -128,10 +128,10 @@ namespace Simulator
                             section.VisualTrack = CornerNorthWest;
                             break;
                         case 1:
-                            section.VisualTrack = CornerNorthEast;
+                            section.VisualTrack = CornerSouthEast;
                             break;
                         case 2:
-                            section.VisualTrack = CornerSouthEast;
+                            section.VisualTrack = CornerNorthEast;
                             break;
                         case 3:
                             section.VisualTrack = CornerSouthWest;
