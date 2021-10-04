@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Model.Classes;
+using Model.Enums;
 using Model.Interfaces;
 
 namespace Controller
@@ -17,6 +19,27 @@ namespace Controller
         {
             Track = track;
             Participants = participants;
+        }
+
+        public void SetStartingPosition()
+        {
+            List<Section> sections =
+                Track.Sections.Where((item) => item.SectionType == SectionTypes.StartGrid).Reverse().ToList();
+
+            for (int i = 0; i < Participants.Count; i++)
+            {
+                Section section = sections.ElementAt(i / 2);
+                SectionData data = GetSectionData(section);
+
+                if (data.Left == null)
+                {
+                    data.Left = Participants[i];
+                }
+                else
+                {
+                    data.Right = Participants[i];
+                }
+            }
         }
 
         public SectionData GetSectionData(Section section)
