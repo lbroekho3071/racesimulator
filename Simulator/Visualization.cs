@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Controller;
 using Model.Classes;
 using Model.Enums;
+using Model.Interfaces;
 
 namespace Simulator
 {
@@ -52,10 +54,22 @@ namespace Simulator
                 for (int i = 0; i < visuals.Length; i++)
                 {
                     Console.SetCursorPosition(section.Position.X, section.Position.Y + i);
-                    Console.WriteLine(visuals[i]);
+                    Console.WriteLine(DrawParticipants(visuals[i], Data.CurrentRace.GetSectionData(section)));
                 }
             }
         }
+
+        private static string DrawParticipants(string visual, SectionData data)
+        {
+            IParticipant p1 = data.Left;
+            IParticipant p2 = data.Right;
+
+            visual = visual.Replace("1", p1 == null ? " " : p1.Name.Substring(0, 1));
+            visual = visual.Replace("2", p2 == null ? " " : p2.Name.Substring(0, 1));
+            
+            return visual;
+        }
+        
         private static void SetDirection(Section section)
         {
             SectionTypes type = section.SectionType;
