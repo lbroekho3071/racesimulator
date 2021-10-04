@@ -81,6 +81,84 @@ namespace Simulator
             }
         }
         
+        private static void SetSectionVisual(Section section)
+        {
+            switch (section.SectionType)
+            {
+                case SectionTypes.StartGrid:
+                    switch (section.Direction)
+                    {
+                        case 0: case 2:
+                            section.VisualTrack = StartGridVertical;
+                            break;
+                        default:
+                            section.VisualTrack = StartGridHortizontal;
+                            break;
+                    }
+                    break;
+                
+                case SectionTypes.Straight:
+                    switch (section.Direction)
+                    {
+                        case 0: case 2:
+                            section.VisualTrack = StraightVertical;
+                            break;
+                        default:
+                            section.VisualTrack = StraightHorizontal;
+                            break;
+                    }
+                    break;
+
+                case SectionTypes.LeftCorner:
+                    switch (section.Direction)
+                    {
+                        case 0:
+                            section.VisualTrack = CornerNorthWest;
+                            break;
+                        case 1:
+                            section.VisualTrack = CornerNorthEast;
+                            break;
+                        case 2:
+                            section.VisualTrack = CornerSouthEast;
+                            break;
+                        case 3:
+                            section.VisualTrack = CornerSouthWest;
+                            break;
+                    }
+                    break;
+                
+                case SectionTypes.RightCorner:
+                    switch (section.Direction)
+                    {
+                        case 3:
+                            section.VisualTrack = CornerNorthWest;
+                            break;
+                        case 2:
+                            section.VisualTrack = CornerSouthWest;
+                            break;
+                        case 1:
+                            section.VisualTrack = CornerNorthEast;
+                            break;
+                        case 0:
+                            section.VisualTrack = CornerSouthEast;
+                            break;
+                    }
+                    break;
+                
+                case SectionTypes.Finish:
+                    switch (section.Direction)
+                    {
+                        case 0: case 2:
+                            section.VisualTrack = FinishVertical;
+                            break;
+                        case 1: case 3:
+                            section.VisualTrack = FinishHorizontal;
+                            break;
+                    }
+                    break;
+            }
+        }
+        
         private static int Clamp( int value, int min, int max )
         {
             return (value < min) ? max : (value > max) ? min : value;
