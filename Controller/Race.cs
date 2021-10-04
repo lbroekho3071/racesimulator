@@ -19,6 +19,8 @@ namespace Controller
         {
             Track = track;
             Participants = participants;
+            
+            SetStartingPosition();
         }
 
         public void SetStartingPosition()
