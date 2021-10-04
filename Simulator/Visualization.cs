@@ -14,21 +14,38 @@ namespace Simulator
         #region graphics
         
         public static Point Position = new Point(20, 0);
+        public static Track Track;
         public static int Direction = 1;
-
-        public static Dictionary<SectionTypes, string[]> VisualEnums = new Dictionary<SectionTypes, string[]>();
         
-        public static void Initialize()
-        {
-            VisualEnums.Add(SectionTypes.StartGrid, new []{ "----", "  # ", "  # ", "----" });
-            VisualEnums.Add(SectionTypes.Straight, new []{"----", "    ", "    ", "----"});
-            VisualEnums.Add(SectionTypes.LeftCorner, new []{"/  |", "   |", "   /", "--/ "});
-            VisualEnums.Add(SectionTypes.RightCorner, new []{"--\\ ", "   \\", "   |", "\\  |"});
-            VisualEnums.Add(SectionTypes.Finish, new []{"--|-", "  | ", "  | ", "--|-"});
-        }
+        #region graphics
+        public static string[] StraightHorizontal = new[] {"----", "    ", "    ", "----"};
+        public static string[] StraightVertical = new[] {"|  |", "|  |", "|  |", "|  |"};
+
+        public static string[] CornerNorthWest = new[] {"/  |", "   |", "   /", "--/ "};
+        public static string[] CornerNorthEast = new[] {" /--", "/   ", "|   ", "|  /"};
+        public static string[] CornerSouthWest = new[] {"--\\ ", "   \\", "   |", "\\  |"};
+        public static string[] CornerSouthEast = new[] {"|  \\", "|   ", "\\   ", "\\-- "};
+
+        public static string[] StartGridHortizontal = new[] {"----", "  # ", "  # ", "----"};
+        public static string[] StartGridVertical = new[] {"|  |", "|# |", "| #|", "|  |"};
+        
+        public static string[] FinishHorizontal = new[] {"--|-", "  | ", "  | ", "--|-"};
+        public static string[] FinishVertical = new[] {"|  |", "|  |", "----", "|  |"};
         #endregion
 
-        public static void DrawTrack(Track track)
+        public static void Initialize(Track track)
+        {
+            Track = track;
+            
+            foreach (Section section in track.Sections)
+            {
+                SetDirection(section);
+                SetSectionPosition(section);
+                SetSectionVisual(section);
+            }
+        }
+
+        public static void DrawTrack()
         {
             foreach (Section section in track.Sections)
             {
