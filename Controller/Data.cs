@@ -21,7 +21,7 @@ namespace Controller
         {
             foreach (TeamColors color in Enum.GetValues(typeof(TeamColors)))
             {
-                Competition.Participants.Add(new Driver());
+                Competition.Participants.Add(new Driver(color.ToString(), color));
             }
         }
 
