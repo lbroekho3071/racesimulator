@@ -13,13 +13,13 @@ namespace Controller
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
         private Random _random = new Random(DateTime.Now.Millisecond);
-        private Dictionary<Section, SectionData> _positions;
+        private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
 
         public Race(Track track, List<IParticipant> participants)
         {
             Track = track;
             Participants = participants;
-            
+
             SetStartingPosition();
         }
 
