@@ -10,8 +10,8 @@ namespace Simulator
         {
             Data.Initialize();
             Data.NextRace();
-            Visualization.Initialize();
-            Visualization.DrawTrack(Data.CurrentRace.Track);
+            Visualization.Initialize(Data.CurrentRace.Track);
+            Visualization.DrawTrack();
             
             for (; ; )
             {
