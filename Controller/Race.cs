@@ -30,16 +30,19 @@ namespace Controller
 
             for (int i = 0; i < Participants.Count; i++)
             {
-                Section section = sections.ElementAt(i / 2);
-                SectionData data = GetSectionData(section);
+                if (i / 2 < sections.Count)
+                {
+                    Section section = sections.ElementAt(i / 2);
+                    SectionData data = GetSectionData(section);
 
-                if (data.Left == null)
-                {
-                    data.Left = Participants[i];
-                }
-                else
-                {
-                    data.Right = Participants[i];
+                    if (data.Left == null)
+                    {
+                        data.Left = Participants[i];
+                    }
+                    else
+                    {
+                        data.Right = Participants[i];
+                    }
                 }
             }
         }
