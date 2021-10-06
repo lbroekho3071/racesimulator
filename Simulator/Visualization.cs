@@ -36,20 +36,15 @@ namespace Simulator
         public static void Initialize(Track track)
         {
             Track = track;
-            
-            foreach (Section section in track.Sections)
-            {
-                SetDirection(section);
-                SetSectionPosition(section);
-                SetSectionVisual(section);
-            }
         }
 
         public static void DrawTrack()
         {
             foreach (Section section in Track.Sections)
             {
-                string[] visuals = section.VisualTrack;
+                SetDirection(section);
+                SetSectionPosition(section);
+                string[] visuals = GetSectionVisual(section);
                 
                 for (int i = 0; i < visuals.Length; i++)
                 {
@@ -57,6 +52,7 @@ namespace Simulator
                     Console.WriteLine(DrawParticipants(visuals[i], Data.CurrentRace.GetSectionData(section)));
                 }
             }
+
         }
 
         private static string DrawParticipants(string visual, SectionData data)
