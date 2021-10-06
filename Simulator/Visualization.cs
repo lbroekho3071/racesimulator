@@ -107,7 +107,7 @@ namespace Simulator
             }
         }
         
-        private static void SetSectionVisual(Section section)
+        private static string[] GetSectionVisual(Section section)
         {
             switch (section.SectionType)
             {
@@ -115,73 +115,53 @@ namespace Simulator
                     switch (section.Direction)
                     {
                         case 0: case 2:
-                            section.VisualTrack = StartGridVertical;
-                            break;
+                            return StartGridVertical;
                         default:
-                            section.VisualTrack = StartGridHortizontal;
-                            break;
+                            return StartGridHortizontal;
                     }
-                    break;
-                
+
                 case SectionTypes.Straight:
                     switch (section.Direction)
                     {
                         case 0: case 2:
-                            section.VisualTrack = StraightVertical;
-                            break;
+                            return StraightVertical;
                         default:
-                            section.VisualTrack = StraightHorizontal;
-                            break;
+                            return StraightHorizontal;
                     }
-                    break;
 
                 case SectionTypes.LeftCorner:
                     switch (section.Direction)
                     {
                         case 0:
-                            section.VisualTrack = CornerNorthWest;
-                            break;
+                            return CornerNorthWest;
                         case 1:
-                            section.VisualTrack = CornerSouthEast;
-                            break;
+                            return CornerSouthEast;
                         case 2:
-                            section.VisualTrack = CornerNorthEast;
-                            break;
-                        case 3:
-                            section.VisualTrack = CornerSouthWest;
-                            break;
+                            return CornerNorthEast;
+                        default:
+                            return CornerSouthWest;
                     }
-                    break;
                 
                 case SectionTypes.RightCorner:
                     switch (section.Direction)
                     {
                         case 3:
-                            section.VisualTrack = CornerNorthWest;
-                            break;
+                            return CornerNorthWest;
                         case 2:
-                            section.VisualTrack = CornerSouthWest;
-                            break;
+                            return CornerSouthWest;
                         case 1:
-                            section.VisualTrack = CornerNorthEast;
-                            break;
-                        case 0:
-                            section.VisualTrack = CornerSouthEast;
-                            break;
+                            return CornerNorthEast;
+                        default:
+                            return CornerSouthEast;
                     }
-                    break;
-                
-                case SectionTypes.Finish:
+                default:
                     switch (section.Direction)
                     {
                         case 0: case 2:
-                            section.VisualTrack = FinishVertical;
-                            break;
-                        case 1: case 3:
-                            section.VisualTrack = FinishHorizontal;
-                            break;
+                            return FinishVertical;
+                        default:
+                            return FinishHorizontal;
                     }
-                    break;
             }
         }
         
