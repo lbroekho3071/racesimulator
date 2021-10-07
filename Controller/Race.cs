@@ -53,10 +53,12 @@ namespace Controller
 
                     if (data.Left == null)
                     {
+                        data.DistanceLeft = 40;
                         data.Left = Participants[i];
                     }
                     else
                     {
+                        data.DistanceRight = 60;
                         data.Right = Participants[i];
                     }
                 }
