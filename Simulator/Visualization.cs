@@ -37,6 +37,8 @@ namespace Simulator
         {
             Position = new Point(20, 0);
             Direction = 1;
+
+            Data.CurrentRace.DriversChanged += OnDriversChanged;
         }
         
         public static void DrawTrack(Track track)
@@ -55,7 +57,11 @@ namespace Simulator
                     Console.WriteLine(DrawParticipants(visuals[i], Data.CurrentRace.GetSectionData(section)));
                 }
             }
+        }
 
+        public static void OnDriversChanged(object obj, DriversChangedEventArgs args)
+        {
+            DrawTrack(args.Track);
         }
 
         private static string DrawParticipants(string visual, SectionData data)
