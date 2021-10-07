@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Model.Classes;
 using Model.Enums;
 using Model.Interfaces;
@@ -12,13 +13,17 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
-        private Random _random = new Random(DateTime.Now.Millisecond);
         private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
+        
+        private Random _random = new Random(DateTime.Now.Millisecond);
+        private Timer _timer;
 
         public Race(Track track, List<IParticipant> participants)
         {
             Track = track;
             Participants = participants;
+
+            _timer = new Timer(500);
 
             SetStartingPosition();
         }

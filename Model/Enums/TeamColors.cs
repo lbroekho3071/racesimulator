@@ -6,6 +6,6 @@ namespace Model.Enums
         Green,
         Yellow,
         Grey,
-        Blue,
+        Blue
     }
 }
