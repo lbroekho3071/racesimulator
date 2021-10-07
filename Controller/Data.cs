@@ -1,6 +1,7 @@
 ﻿using System;
 using Model.Classes;
 using Model.Enums;
+using Model.Interfaces;
 
 namespace Controller
 {
@@ -21,7 +22,7 @@ namespace Controller
         {
             foreach (TeamColors color in Enum.GetValues(typeof(TeamColors)))
             {
-                Competition.Participants.Add(new Driver(color.ToString(), color));
+                Competition.Participants.Add(new Driver(color.ToString(), new Car(), color));
             }
         }
 

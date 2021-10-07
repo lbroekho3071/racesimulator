@@ -10,9 +10,10 @@ namespace Model.Classes
         public IEquipment Equipment { get; set; }
         public TeamColors TeamColor { get; set; }
 
-        public Driver(string name, TeamColors color)
+        public Driver(string name, IEquipment equipment, TeamColors color)
         {
             Name = name;
+            Equipment = equipment;
             TeamColor = color;
         }
     }
