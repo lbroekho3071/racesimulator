@@ -28,7 +28,10 @@ namespace Controller
             _timer = new Timer(500);
             _timer.Elapsed += OnTimedEvent;
 
+            RandomizeEquipment();
             SetStartingPosition();
+
+            Start();
         }
 
         public void Start()
@@ -81,7 +84,12 @@ namespace Controller
         
         private void OnTimedEvent(object obj, EventArgs args)
         {
+            foreach (IParticipant driver in Participants)
+            {
+                int speed = driver.Equipment.Performance * driver.Equipment.Speed;
+            }
             
+            DriversChanged?.Invoke(obj, new DriversChangedEventArgs(Track));
         }
     }
 }
