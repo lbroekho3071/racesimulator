@@ -18,6 +18,8 @@ namespace Controller
         private Random _random = new Random(DateTime.Now.Millisecond);
         private Timer _timer;
 
+        public event EventHandler<DriversChangedEventArgs> DriversChanged;
+
         public Race(Track track, List<IParticipant> participants)
         {
             Track = track;
