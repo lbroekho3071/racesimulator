@@ -13,9 +13,9 @@ namespace Simulator
 {
     public static class Visualization
     {
-        public static Point Position = new Point(20, 0);
+        public static Point Position;
         public static Track Track;
-        public static int Direction = 1;
+        public static int Direction;
         
         #region graphics
         public static string[] StraightHorizontal = new[] {"----", "  1 ", " 2  ", "----"};
@@ -33,13 +33,16 @@ namespace Simulator
         public static string[] FinishVertical = new[] {"|  |", "|  |", "----", "|  |"};
         #endregion
 
-        public static void Initialize(Track track)
+        public static void Initialize()
+        {
+            Position = new Point(20, 0);
+            Direction = 1;
+        }
+        
+        public static void DrawTrack(Track track)
         {
             Track = track;
-        }
-
-        public static void DrawTrack()
-        {
+            
             foreach (Section section in Track.Sections)
             {
                 SetDirection(section);
