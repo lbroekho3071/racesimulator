@@ -43,6 +43,7 @@ namespace Simulator
         
         public static void DrawTrack(Track track)
         {
+            Console.Clear();
             Track = track;
             
             foreach (Section section in Track.Sections)
