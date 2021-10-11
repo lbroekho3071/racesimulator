@@ -31,9 +31,6 @@ namespace Controller
             _timer = new Timer(500);
             _timer.Elapsed += OnTimedEvent;
 
-            RandomizeEquipment();
-            SetStartingPosition();
-
             Start();
         }
 
@@ -124,5 +121,26 @@ namespace Controller
             
             DriversChanged?.Invoke(obj, new DriversChangedEventArgs(Track));
         }
-    }
+
+        private KeyValuePair<IParticipant, int> GetDriverPosition(IParticipant driver, SectionData position)
+        {
+            if (position.Left == driver)
+            {
+                return new KeyValuePair<IParticipant, int>(driver, position.DistanceLeft);
+            }
+            else if (position.Right == driver)
+            {
+                return new KeyValuePair<IParticipant, int>(driver, position.DistanceRight);
+            }
+            else
+            {
+                return new KeyValuePair<IParticipant, int>();
+            }
+        }
+
+        private void UpdateDriverPosition()
+        {
+            
+        }
+     }
 }
