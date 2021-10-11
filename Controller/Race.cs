@@ -24,6 +24,9 @@ namespace Controller
         {
             Track = track;
             Participants = participants;
+            
+            RandomizeEquipment();
+            SetStartingPosition();
 
             _timer = new Timer(500);
             _timer.Elapsed += OnTimedEvent;
@@ -89,6 +92,34 @@ namespace Controller
             foreach (IParticipant driver in Participants)
             {
                 int speed = driver.Equipment.Performance * driver.Equipment.Speed;
+            
+                KeyValuePair<Section, SectionData> position = _positions.Single(
+                    item => item.Value.Left == driver || item.Value.Right == driver);
+            
+                KeyValuePair<IParticipant, int> driverPosition = GetDriverPosition(driver, position.Value);
+            
+                int newPosition = driverPosition.Value + speed;
+            
+                if (newPosition > 100)
+                {
+                    int index = _positions.ToList().IndexOf(position);
+                    KeyValuePair<Section, SectionData> nextGrid = _positions.ElementAt(index + 1);
+                    
+                    // if (nextGrid.Value.Left == null)
+                    // {
+                    //     nextGrid.Value.Left = driver;
+                    //     nextGrid.Value.DistanceLeft = newPosition - 100;
+                    // }
+                    // if(nextGrid.Value.Right == null)
+                    // {
+                    //     nextGrid.Value.Right = driver;
+                    //     nextGrid.Value.DistanceRight = newPosition - 100;
+                    // }
+                    // else
+                    // {
+                    //     
+                    // }
+                }
             }
             
             DriversChanged?.Invoke(obj, new DriversChangedEventArgs(Track));
