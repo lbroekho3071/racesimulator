@@ -33,20 +33,20 @@ namespace Simulator
         public static string[] FinishVertical = new[] {"| 2|", "|1 |", "----", "|  |"};
         #endregion
 
-        public static void Initialize()
+        public static void Initialize(Track track)
         {
+            Track = track;
             Position = new Point(20, 0);
             Direction = 1;
 
             Data.CurrentRace.DriversChanged += OnDriversChanged;
+            Data.CurrentRace.RaceFinished += RaceFinished;
         }
         
         public static void DrawTrack(Track track)
         {
-            Console.Clear();
-            Track = track;
-            
-            foreach (Section section in Track.Sections)
+
+            foreach (Section section in track.Sections)
             {
                 SetDirection(section);
                 SetSectionPosition(section);
@@ -63,6 +63,15 @@ namespace Simulator
         public static void OnDriversChanged(object obj, DriversChangedEventArgs args)
         {
             DrawTrack(args.Track);
+        }
+
+        public static void RaceFinished(object obj, EventArgs args)
+        {
+            Console.Clear();
+
+            Data.NextRace();
+            Initialize(Data.CurrentRace.Track);
+            DrawTrack(Data.CurrentRace.Track);
         }
 
         private static string DrawParticipants(string visual, SectionData data)
