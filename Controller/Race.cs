@@ -80,8 +80,22 @@ namespace Controller
         {
             foreach (var driver in Participants)
             {
-                driver.Equipment.Performance = new Random().Next(1, 100);
-                driver.Equipment.Speed = new Random().Next(1, 100);
+                driver.Equipment.Performance = new Random().Next(100);
+                driver.Equipment.Speed = new Random().Next(100);
+            }
+        }
+
+        private void BreakDownCar(IParticipant participant)
+        {
+            int number = _random.Next(100);
+            
+            if (number < 5)
+            {
+                participant.Equipment.IsBroken = true;
+            }
+            else
+            {
+                participant.Equipment.IsBroken = false;
             }
         }
         
@@ -112,15 +126,19 @@ namespace Controller
 
                 if (section != null)
                 {
-                    var sectionData = GetSectionData(section);
+                    SectionData sectionData = GetSectionData(section);
+                    int position = participant.Equipment.Performance * participant.Equipment.Speed + sectionData.DistanceLeft;
                     
-                    var position = participant.Equipment.Performance * participant.Equipment.Speed + sectionData.DistanceLeft;
-                    
+
                     if (section.SectionType == SectionTypes.Finish)
                     {
                         participant.Laps += 1;
                     }
 
+                    BreakDownCar(participant);
+                    if (participant.Equipment.IsBroken)
+                        return;
+                    
                     if (participant == sectionData.Left)
                     {
                         if (position > 100)
