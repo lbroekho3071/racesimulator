@@ -13,7 +13,6 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
-        public bool RaceFinished = false;
         private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
         
         private Random _random = new Random(DateTime.Now.Millisecond);
@@ -35,12 +34,12 @@ namespace Controller
             Start();
         }
 
-        public void Start()
+        private void Start()
         {
             _timer.Start();
         }
 
-        public void SetStartingPosition()
+        private void SetStartingPosition()
         {
             var sections =
                 Track.Sections.Where((item) => item.SectionType == SectionTypes.StartGrid).Reverse().ToList();
@@ -75,7 +74,7 @@ namespace Controller
             return data;
         }
 
-        public void RandomizeEquipment()
+        private void RandomizeEquipment()
         {
             foreach (var driver in Participants)
             {
@@ -104,12 +103,17 @@ namespace Controller
                     
                     var position = participant.Equipment.Performance * participant.Equipment.Speed + sectionData.DistanceLeft;
                     
+                    if (section.SectionType == SectionTypes.Finish)
+                    {
+                        participant.Laps += 1;
+                    }
+
                     if (participant == sectionData.Left)
                     {
                         if (position > 100)
                         {
                             NextSection(section, participant, position);
-                    
+                            
                             sectionData.Left = null;
                             sectionData.DistanceLeft = 0;
                         }
@@ -140,20 +144,27 @@ namespace Controller
         {
             SectionData nextData = GetNextSection(section);
 
-            if (section.SectionType == SectionTypes.Finish)
-            {
-                participant.Laps += 1;
-            }
-
             if (nextData.Left == null)
             {
                 nextData.Left = participant;
                 nextData.DistanceLeft = position - 100;
+                
+                if (participant.Laps > 3)
+                {
+                    nextData.Left = null;
+                    nextData.DistanceLeft = 0;
+                }
             }
             else if (nextData.Right == null)
             {
                 nextData.Right = participant;
                 nextData.DistanceRight = position - 100;
+                
+                if (participant.Laps > 3)
+                {
+                    nextData.Right = null;
+                    nextData.DistanceRight = 0;
+                }
             }
         }
 
@@ -165,7 +176,6 @@ namespace Controller
                 return GetSectionData(Track.Sections.ElementAt(index));
 
             return GetSectionData(Track.Sections.ElementAt(0));
-            
         }
     }
 }
