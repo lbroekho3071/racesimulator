@@ -13,7 +13,7 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
-        private int _maxLaps = 0;
+        private int _maxLaps = 1;
         private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
         
         private Random _random = new Random(DateTime.Now.Millisecond);
@@ -94,6 +94,7 @@ namespace Controller
                     Participants[i].Laps = 0;
                 }
                 
+                DriversChanged = null;
                 RaceFinished?.Invoke(this, new EventArgs());
             }
             
