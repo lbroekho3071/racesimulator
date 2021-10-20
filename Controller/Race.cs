@@ -100,16 +100,16 @@ namespace Controller
                 if (section != null)
                 {
                     var sectionData = GetSectionData(section);
-
+                    
                     var position = participant.Equipment.Performance * participant.Equipment.Speed + sectionData.DistanceLeft;
-
+                    
                     if (participant == sectionData.Left)
                     {
                         if (position > 100)
                         {
                             var nextSection = Track.Sections.ElementAt(Track.Sections.ToList().IndexOf(section) + 1);
                             var nextData = GetSectionData(nextSection);
-
+                    
                             if (nextData.Left == null)
                             {
                                 nextData.Left = participant;
@@ -120,7 +120,7 @@ namespace Controller
                                 nextData.Right = participant;
                                 nextData.DistanceRight = position - 100;
                             }
-
+                    
                             sectionData.Left = null;
                             sectionData.DistanceLeft = 0;
                         }
@@ -135,8 +135,8 @@ namespace Controller
                         {
                             var nextSection = Track.Sections.ElementAt(Track.Sections.ToList().IndexOf(section) + 1);
                             var nextData = GetSectionData(nextSection);
-
-                            if (nextData.Right == null)
+                    
+                            if (nextData.Left == null)
                             {
                                 nextData.Left = participant;
                                 nextData.DistanceLeft = position - 100;
@@ -146,7 +146,7 @@ namespace Controller
                                 nextData.Right = participant;
                                 nextData.DistanceRight = position - 100;
                             }
-
+                    
                             sectionData.Right = null;
                             sectionData.DistanceRight = 0;
                         }
