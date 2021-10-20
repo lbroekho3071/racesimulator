@@ -13,12 +13,14 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
+        private int _maxLaps = 0;
         private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
         
         private Random _random = new Random(DateTime.Now.Millisecond);
         private Timer _timer;
         
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
+        public event EventHandler RaceFinished;
 
         public Race(Track track, List<IParticipant> participants)
         {
@@ -85,6 +87,16 @@ namespace Controller
         
         private void OnTimedEvent(object obj, EventArgs args)
         {
+            if (Participants.Count(item => item.Laps > _maxLaps) == Participants.Count)
+            {
+                for (int i = 0; i < Participants.Count; i++)
+                {
+                    Participants[i].Laps = 0;
+                }
+                
+                RaceFinished?.Invoke(this, new EventArgs());
+            }
+            
             MoveParticipants();
             
             DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
@@ -149,7 +161,7 @@ namespace Controller
                 nextData.Left = participant;
                 nextData.DistanceLeft = position - 100;
                 
-                if (participant.Laps > 3)
+                if (participant.Laps > _maxLaps)
                 {
                     nextData.Left = null;
                     nextData.DistanceLeft = 0;
@@ -160,7 +172,7 @@ namespace Controller
                 nextData.Right = participant;
                 nextData.DistanceRight = position - 100;
                 
-                if (participant.Laps > 3)
+                if (participant.Laps > _maxLaps)
                 {
                     nextData.Right = null;
                     nextData.DistanceRight = 0;
