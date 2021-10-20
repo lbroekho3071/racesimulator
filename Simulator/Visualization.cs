@@ -79,8 +79,10 @@ namespace Simulator
             IParticipant p1 = data.Left;
             IParticipant p2 = data.Right;
 
-            visual = visual.Replace("1", p1 == null ? " " : p1.Name.Substring(0, 1));
-            visual = visual.Replace("2", p2 == null ? " " : p2.Name.Substring(0, 1));
+            visual = visual
+                .Replace("1", p1 == null ? " " : p1.Equipment.IsBroken ? $"~" : p1.Name.Substring(0, 1));
+            visual = visual
+                .Replace("2", p2 == null ? " " : p2.Equipment.IsBroken ? "~" : p2.Name.Substring(0, 1));
             
             return visual;
         }
