@@ -27,10 +27,10 @@ namespace Simulator
         public static string[] CornerSouthEast = new[] {"|  \\", "| 1 ", "\\2  ", " \\-- "};
 
         public static string[] StartGridHortizontal = new[] {"----", "  1#", "2#  ", "----"};
-        public static string[] StartGridVertical = new[] {"|  |", "|# |", "| #|", "|  |"};
+        public static string[] StartGridVertical = new[] {"|  |", "|#1|", "|2#|", "|  |"};
         
         public static string[] FinishHorizontal = new[] {"--|-", " 1| ", " 2| ", "--|-"};
-        public static string[] FinishVertical = new[] {"|  |", "|  |", "----", "|  |"};
+        public static string[] FinishVertical = new[] {"| 2|", "|1 |", "----", "|  |"};
         #endregion
 
         public static void Initialize()
@@ -43,7 +43,7 @@ namespace Simulator
         
         public static void DrawTrack(Track track)
         {
-            Console.Clear();
+            // Console.Clear();
             Track = track;
             
             foreach (Section section in Track.Sections)
