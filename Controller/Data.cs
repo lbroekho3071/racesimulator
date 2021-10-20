@@ -59,6 +59,22 @@ namespace Controller
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
             }));
+            
+            Competition.Tracks.Enqueue(new Track("Rondje", new []
+            {
+                SectionTypes.StartGrid,
+                SectionTypes.StartGrid,
+                SectionTypes.StartGrid,
+                SectionTypes.Finish,
+                SectionTypes.RightCorner,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.RightCorner,
+            }));
         }
 
         public static void NextRace()
