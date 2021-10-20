@@ -17,7 +17,7 @@ namespace Controller
         
         private Random _random = new Random(DateTime.Now.Millisecond);
         private Timer _timer;
-
+        
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
 
         public Race(Track track, List<IParticipant> participants)
@@ -41,15 +41,14 @@ namespace Controller
 
         public void SetStartingPosition()
         {
-            List<Section> sections =
+            var sections =
                 Track.Sections.Where((item) => item.SectionType == SectionTypes.StartGrid).Reverse().ToList();
 
-            for (int i = 0; i < Participants.Count; i++)
-            {
+            for (var i = 0; i < Participants.Count; i++)
                 if (i / 2 < sections.Count)
                 {
-                    Section section = sections.ElementAt(i / 2);
-                    SectionData data = GetSectionData(section);
+                    var section = sections.ElementAt(i / 2);
+                    var data = GetSectionData(section);
 
                     if (data.Left == null)
                     {
@@ -62,14 +61,14 @@ namespace Controller
                         data.Right = Participants[i];
                     }
                 }
-            }
         }
+        
 
         public SectionData GetSectionData(Section section)
         {
             if (_positions.ContainsKey(section)) return _positions[section];
 
-            SectionData data = new SectionData();
+            var data = new SectionData();
             _positions.Add(section, data);
 
             return data;
@@ -77,7 +76,7 @@ namespace Controller
 
         public void RandomizeEquipment()
         {
-            foreach (IParticipant driver in Participants)
+            foreach (var driver in Participants)
             {
                 driver.Equipment.Performance = new Random().Next(1, 100);
                 driver.Equipment.Speed = new Random().Next(1, 100);
@@ -86,61 +85,78 @@ namespace Controller
         
         private void OnTimedEvent(object obj, EventArgs args)
         {
-            foreach (IParticipant driver in Participants)
+            MoveParticipants();
+            
+            DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+        }
+
+        private void MoveParticipants()
+        {
+            foreach (var participant in Participants)
             {
-                int speed = driver.Equipment.Performance * driver.Equipment.Speed;
-            
-                KeyValuePair<Section, SectionData> position = _positions.Single(
-                    item => item.Value.Left == driver || item.Value.Right == driver);
-            
-                KeyValuePair<IParticipant, int> driverPosition = GetDriverPosition(driver, position.Value);
-            
-                int newPosition = driverPosition.Value + speed;
-            
-                if (newPosition > 100)
+                Section section = _positions.SingleOrDefault(
+                    item => item.Value.Left == participant || item.Value.Right == participant).Key;
+
+                if (section != null)
                 {
-                    int index = _positions.ToList().IndexOf(position);
-                    KeyValuePair<Section, SectionData> nextGrid = _positions.ElementAt(index + 1);
-                    
-                    // if (nextGrid.Value.Left == null)
-                    // {
-                    //     nextGrid.Value.Left = driver;
-                    //     nextGrid.Value.DistanceLeft = newPosition - 100;
-                    // }
-                    // if(nextGrid.Value.Right == null)
-                    // {
-                    //     nextGrid.Value.Right = driver;
-                    //     nextGrid.Value.DistanceRight = newPosition - 100;
-                    // }
-                    // else
-                    // {
-                    //     
-                    // }
+                    var sectionData = GetSectionData(section);
+
+                    var position = participant.Equipment.Performance * participant.Equipment.Speed + sectionData.DistanceLeft;
+
+                    if (participant == sectionData.Left)
+                    {
+                        if (position > 100)
+                        {
+                            var nextSection = Track.Sections.ElementAt(Track.Sections.ToList().IndexOf(section) + 1);
+                            var nextData = GetSectionData(nextSection);
+
+                            if (nextData.Left == null)
+                            {
+                                nextData.Left = participant;
+                                nextData.DistanceLeft = position - 100;
+                            }
+                            else if (nextData.Right == null)
+                            {
+                                nextData.Right = participant;
+                                nextData.DistanceRight = position - 100;
+                            }
+
+                            sectionData.Left = null;
+                            sectionData.DistanceLeft = 0;
+                        }
+                        else
+                        {
+                            sectionData.DistanceLeft = position;
+                        }
+                    }
+                    else if (participant == sectionData.Right)
+                    {
+                        if (position > 100)
+                        {
+                            var nextSection = Track.Sections.ElementAt(Track.Sections.ToList().IndexOf(section) + 1);
+                            var nextData = GetSectionData(nextSection);
+
+                            if (nextData.Right == null)
+                            {
+                                nextData.Left = participant;
+                                nextData.DistanceLeft = position - 100;
+                            }
+                            else if (nextData.Right == null)
+                            {
+                                nextData.Right = participant;
+                                nextData.DistanceRight = position - 100;
+                            }
+
+                            sectionData.Right = null;
+                            sectionData.DistanceRight = 0;
+                        }
+                        else
+                        {
+                            sectionData.DistanceRight = position;
+                        }
+                    }
                 }
             }
-            
-            DriversChanged?.Invoke(obj, new DriversChangedEventArgs(Track));
         }
-
-        private KeyValuePair<IParticipant, int> GetDriverPosition(IParticipant driver, SectionData position)
-        {
-            if (position.Left == driver)
-            {
-                return new KeyValuePair<IParticipant, int>(driver, position.DistanceLeft);
-            }
-            else if (position.Right == driver)
-            {
-                return new KeyValuePair<IParticipant, int>(driver, position.DistanceRight);
-            }
-            else
-            {
-                return new KeyValuePair<IParticipant, int>();
-            }
-        }
-
-        private void UpdateDriverPosition()
-        {
-            
-        }
-     }
+    }
 }
