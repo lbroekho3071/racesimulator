@@ -140,6 +140,11 @@ namespace Controller
         {
             SectionData nextData = GetNextSection(section);
 
+            if (section.SectionType == SectionTypes.Finish)
+            {
+                participant.Laps += 1;
+            }
+
             if (nextData.Left == null)
             {
                 nextData.Left = participant;
