@@ -48,7 +48,7 @@ namespace Simulator
 
             foreach (Section section in track.Sections)
             {
-                SetDirection(section);
+                Direction = Data.CurrentRace.SetDirection(section, Direction);
                 SetSectionPosition(section);
                 string[] visuals = GetSectionVisual(section);
                 
@@ -85,21 +85,6 @@ namespace Simulator
                 .Replace("2", p2 == null ? " " : p2.Equipment.IsBroken ? "~" : p2.Name.Substring(0, 1));
             
             return visual;
-        }
-        
-        private static void SetDirection(Section section)
-        {
-            SectionTypes type = section.SectionType;
-
-            switch (type)
-            {
-                case SectionTypes.LeftCorner:
-                    Direction = Clamp(Direction - 1, 0, 3);
-                    break;
-                case SectionTypes.RightCorner:
-                    Direction = Clamp(Direction + 1, 0, 3);
-                    break;
-            }
         }
 
         private static void SetSectionPosition(Section section)

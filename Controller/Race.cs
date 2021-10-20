@@ -210,5 +210,27 @@ namespace Controller
 
             return GetSectionData(Track.Sections.ElementAt(0));
         }
+        
+        public int SetDirection(Section section, int direction)
+        {
+            SectionTypes type = section.SectionType;
+
+            switch (type)
+            {
+                case SectionTypes.LeftCorner:
+                    section.Direction = Clamp(direction - 1, 0, 3);
+                    return section.Direction;
+                case SectionTypes.RightCorner:
+                    section.Direction = Clamp(direction + 1, 0, 3);
+                    return section.Direction;
+                default:
+                    return direction;
+            }
+        }
+        
+        private int Clamp( int value, int min, int max )
+        {
+            return (value < min) ? max : (value > max) ? min : value;
+        }
     }
 }
