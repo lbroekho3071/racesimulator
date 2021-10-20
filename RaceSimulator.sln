@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit Test", "NUnit Test\NUnit Test.csproj", "{626FE5F2-B611-46BD-B1F4-E9C2E510B0E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "WPF\WPF.csproj", "{90965013-3FFA-4193-9CFD-4ED8B2DFE3A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "WPF\WPF.csproj", "{0FABC9FD-44A1-4DED-98E1-155E7FCCB8AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +32,9 @@ Global
 		{626FE5F2-B611-46BD-B1F4-E9C2E510B0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{626FE5F2-B611-46BD-B1F4-E9C2E510B0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{626FE5F2-B611-46BD-B1F4-E9C2E510B0E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90965013-3FFA-4193-9CFD-4ED8B2DFE3A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90965013-3FFA-4193-9CFD-4ED8B2DFE3A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90965013-3FFA-4193-9CFD-4ED8B2DFE3A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90965013-3FFA-4193-9CFD-4ED8B2DFE3A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FABC9FD-44A1-4DED-98E1-155E7FCCB8AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FABC9FD-44A1-4DED-98E1-155E7FCCB8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FABC9FD-44A1-4DED-98E1-155E7FCCB8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FABC9FD-44A1-4DED-98E1-155E7FCCB8AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
