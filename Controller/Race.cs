@@ -13,6 +13,7 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
+        public bool RaceFinished = false;
         private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
         
         private Random _random = new Random(DateTime.Now.Millisecond);
@@ -107,19 +108,7 @@ namespace Controller
                     {
                         if (position > 100)
                         {
-                            var nextSection = Track.Sections.ElementAt(Track.Sections.ToList().IndexOf(section) + 1);
-                            var nextData = GetSectionData(nextSection);
-                    
-                            if (nextData.Left == null)
-                            {
-                                nextData.Left = participant;
-                                nextData.DistanceLeft = position - 100;
-                            }
-                            else if (nextData.Right == null)
-                            {
-                                nextData.Right = participant;
-                                nextData.DistanceRight = position - 100;
-                            }
+                            NextSection(section, participant, position);
                     
                             sectionData.Left = null;
                             sectionData.DistanceLeft = 0;
@@ -133,19 +122,7 @@ namespace Controller
                     {
                         if (position > 100)
                         {
-                            var nextSection = Track.Sections.ElementAt(Track.Sections.ToList().IndexOf(section) + 1);
-                            var nextData = GetSectionData(nextSection);
-                    
-                            if (nextData.Left == null)
-                            {
-                                nextData.Left = participant;
-                                nextData.DistanceLeft = position - 100;
-                            }
-                            else if (nextData.Right == null)
-                            {
-                                nextData.Right = participant;
-                                nextData.DistanceRight = position - 100;
-                            }
+                            NextSection(section, participant, position);
                     
                             sectionData.Right = null;
                             sectionData.DistanceRight = 0;
@@ -157,6 +134,33 @@ namespace Controller
                     }
                 }
             }
+        }
+
+        private void NextSection(Section section, IParticipant participant, int position)
+        {
+            SectionData nextData = GetNextSection(section);
+
+            if (nextData.Left == null)
+            {
+                nextData.Left = participant;
+                nextData.DistanceLeft = position - 100;
+            }
+            else if (nextData.Right == null)
+            {
+                nextData.Right = participant;
+                nextData.DistanceRight = position - 100;
+            }
+        }
+
+        private SectionData GetNextSection(Section section)
+        {
+            int index = Track.Sections.ToList().IndexOf(section) + 1;
+
+            if (index < Track.Sections.Count) 
+                return GetSectionData(Track.Sections.ElementAt(index));
+
+            return GetSectionData(Track.Sections.ElementAt(0));
+            
         }
     }
 }
