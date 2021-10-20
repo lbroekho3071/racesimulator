@@ -88,14 +88,17 @@ namespace Controller
         private void BreakDownCar(IParticipant participant)
         {
             int number = _random.Next(100);
-            
-            if (number < 5)
+
+            IEquipment equipment = participant.Equipment;
+            if (number <= 5 )
             {
-                participant.Equipment.IsBroken = true;
+                equipment.IsBroken = true;
+                equipment.Performance -= 2;
+                equipment.Speed -= 2;
             }
             else
             {
-                participant.Equipment.IsBroken = false;
+                equipment.IsBroken = false;
             }
         }
         
@@ -128,14 +131,13 @@ namespace Controller
                 {
                     SectionData sectionData = GetSectionData(section);
                     int position = participant.Equipment.Performance * participant.Equipment.Speed + sectionData.DistanceLeft;
-                    
+                    BreakDownCar(participant);
 
                     if (section.SectionType == SectionTypes.Finish)
                     {
                         participant.Laps += 1;
                     }
 
-                    BreakDownCar(participant);
                     if (participant.Equipment.IsBroken)
                         return;
                     
