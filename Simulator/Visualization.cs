@@ -67,7 +67,7 @@ namespace Simulator
 
         public static void RaceFinished(object obj, EventArgs args)
         {
-            Console.Clear();
+            // Console.Clear();
 
             Data.NextRace();
             Initialize(Data.CurrentRace.Track);

@@ -130,84 +130,111 @@ namespace Controller
                 if (section != null)
                 {
                     SectionData sectionData = GetSectionData(section);
-                    int position = participant.Equipment.Performance * participant.Equipment.Speed + sectionData.DistanceLeft;
-                    BreakDownCar(participant);
 
+                    BreakDownCar(participant);
+                    
                     if (section.SectionType == SectionTypes.Finish)
                     {
                         participant.Laps += 1;
                     }
-
+                    
                     if (participant.Equipment.IsBroken)
                         return;
                     
+                    int speed = participant.Equipment.Performance + participant.Equipment.Speed;
+
                     if (participant == sectionData.Left)
                     {
-                        if (position > 100)
+                        sectionData.DistanceLeft += speed;
+
+                        if (sectionData.DistanceLeft > 100)
                         {
-                            NextSection(section, participant, position);
-                            
-                            sectionData.Left = null;
-                            sectionData.DistanceLeft = 0;
-                        }
-                        else
-                        {
-                            sectionData.DistanceLeft = position;
+                            NextSection(section, participant, sectionData.DistanceLeft - 100);
                         }
                     }
                     else if (participant == sectionData.Right)
                     {
-                        if (position > 100)
+                        sectionData.DistanceRight += speed;
+                        
+                        if (sectionData.DistanceRight > 100)
                         {
-                            NextSection(section, participant, position);
-                    
-                            sectionData.Right = null;
-                            sectionData.DistanceRight = 0;
-                        }
-                        else
-                        {
-                            sectionData.DistanceRight = position;
+                            NextSection(section, participant, sectionData.DistanceRight - 100);
                         }
                     }
+                    
+                    // if (participant == sectionData.Left)
+                    // {
+                    //     position += sectionData.DistanceLeft;
+                    //     if (position > 100)
+                    //     {
+                    //         NextSection(section, participant, position);
+                    //
+                    //         sectionData.Left = null;
+                    //         sectionData.DistanceLeft = 0;
+                    //     }
+                    //     else
+                    //     {
+                    //         sectionData.DistanceLeft = position;
+                    //     }
+                    // }
+                    // else if (participant == sectionData.Right)
+                    // {
+                    //     position += sectionData.DistanceRight;
+                    //     
+                    //     if (position > 100)
+                    //     {
+                    //         NextSection(section, participant, position);
+                    //
+                    //         sectionData.Right = null;
+                    //         sectionData.DistanceRight = 0;
+                    //     }
+                    //     else
+                    //     {
+                    //         sectionData.DistanceRight = position;
+                    //     }
+                    // }
                 }
             }
         }
 
         private void NextSection(Section section, IParticipant participant, int position)
         {
-            SectionData nextData = GetNextSection(section);
-
-            if (nextData.Left == null)
-            {
-                nextData.Left = participant;
-                nextData.DistanceLeft = position - 100;
-                
-                if (participant.Laps > _maxLaps)
-                {
-                    nextData.Left = null;
-                    nextData.DistanceLeft = 0;
-                }
-            }
-            else if (nextData.Right == null)
-            {
-                nextData.Right = participant;
-                nextData.DistanceRight = position - 100;
-                
-                if (participant.Laps > _maxLaps)
-                {
-                    nextData.Right = null;
-                    nextData.DistanceRight = 0;
-                }
-            }
+            
+            // int sectionCount = 1;
+            //
+            // SectionData nextData = GetNextSection(section);
+            //
+            // if (nextData.Left == null)
+            // {
+            //     nextData.Left = participant;
+            //     nextData.DistanceLeft = position - 100;
+            //     
+            //     if (participant.Laps > _maxLaps)
+            //     {
+            //         nextData.Left = null;
+            //         nextData.DistanceLeft = 0;
+            //     }
+            // }
+            // else if (nextData.Right == null)
+            // {
+            //     nextData.Right = participant;
+            //     nextData.DistanceRight = position - 100;
+            //     
+            //     if (participant.Laps > _maxLaps)
+            //     {
+            //         nextData.Right = null;
+            //         nextData.DistanceRight = 0;
+            //     }
+            // }
         }
 
         private SectionData GetNextSection(Section section)
         {
-            int index = Track.Sections.ToList().IndexOf(section) + 1;
-
+            int index = Track.Sections.ToList().IndexOf(section);
+        
             if (index < Track.Sections.Count) 
                 return GetSectionData(Track.Sections.ElementAt(index));
-
+        
             return GetSectionData(Track.Sections.ElementAt(0));
         }
     }
