@@ -22,7 +22,12 @@ namespace Controller
         {
             foreach (TeamColors color in Enum.GetValues(typeof(TeamColors)))
             {
-                Competition.Participants.Add(new Driver(color.ToString(), new Car(), color));
+                Competition.Participants.Add(new Driver
+                {
+                    Name = color.ToString(),
+                    Equipment = new Car(),
+                    TeamColor = color
+                });
             }
         }
 
@@ -84,6 +89,8 @@ namespace Controller
             if (track == null) return;
 
             CurrentRace = new Race(track, Competition.Participants);
+            
+            CurrentRace.Start();
         }
     }
 }

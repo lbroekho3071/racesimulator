@@ -14,8 +14,8 @@ namespace Model.Classes
             Name = name;
             Sections = ConvertArrayToLinkedList(sections);
         }
-
-        private LinkedList<Section> ConvertArrayToLinkedList(SectionTypes[] sections)
+        
+        public LinkedList<Section> ConvertArrayToLinkedList(SectionTypes[] sections)
         {
             LinkedList<Section> sectionList = new LinkedList<Section>();
 

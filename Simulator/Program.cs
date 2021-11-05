@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Controller;
+using Model.Classes;
+using Model.Enums;
 
 namespace Simulator
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             Data.Initialize();
             Data.NextRace();
-            Visualization.Initialize(Data.CurrentRace.Track);
+            Visualization.Initialize();
             Visualization.DrawTrack(Data.CurrentRace.Track);
             
             for (; ; )
@@ -18,5 +21,8 @@ namespace Simulator
                 Thread.Sleep(100);
             }
         }
+        
+        
+        
     }
 }
