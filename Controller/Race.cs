@@ -70,7 +70,8 @@ namespace Controller
 
             DriversChanged?.Invoke(this, new DriversChangedEventArgs
             {
-                Track = Track
+                Track = Track,
+                Participants = Participants
             });
         }
 

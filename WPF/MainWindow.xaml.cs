@@ -25,12 +25,13 @@ namespace WPF
     {
         private CompetitionStatistics _competitionStatistics;
         private RaceStatistics _raceStatistics;
-        
+
         public MainWindow()
         {
             InitializeComponent();
             Data.Initialize();
             Data.NextRace();
+
 
             SetEvents();
         }
@@ -39,6 +40,11 @@ namespace WPF
         {
             Data.CurrentRace.DriversChanged += OnDriversChanged;
             Data.CurrentRace.RaceFinished += OnRaceFinished;
+
+            Dispatcher.Invoke(() =>
+            {
+                Data.CurrentRace.DriversChanged += ((DataContext)DataContext).OnDriversChanged;
+            });
         }
 
         public void ClearEvents()
@@ -80,12 +86,18 @@ namespace WPF
 
         private void MenuItem_Competition_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (_competitionStatistics == null)
+                _competitionStatistics = new CompetitionStatistics();
+            
+            _competitionStatistics.Show();
         }
 
         private void MenuItem_Race_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (_raceStatistics == null)
+                _raceStatistics = new RaceStatistics();
+            
+            _raceStatistics.Show();
         }
 
         private void MenuItem_Exit_OnClick(object sender, RoutedEventArgs e)

@@ -55,7 +55,7 @@ namespace WPF
                     graphics.DrawImage(
                         Image.GetBitmap($"{Player}\\{(sectionData.Right.Equipment.IsBroken ? "X" : $"Team{sectionData.Right.TeamColor}")}.png"),
                         new Point(Position.X * SectionSize + sectionData.DistanceRight * SectionSize / 100,
-                            Position.Y * SectionSize + 19));
+                            Position.Y * SectionSize + 40));
             }
             
             return Image.CreateBitmapSourceFromGdiBitmap(bitmap);

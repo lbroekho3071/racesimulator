@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF"
+        xmlns:model="clr-namespace:Model.Classes;assembly=Model"
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="1000">
+    <Window.DataContext>
+        <model:DataContext/>
+    </Window.DataContext>
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top" Height="20" VerticalAlignment="Top">
@@ -16,6 +19,7 @@
                     <MenuItem Header="_Exit" Click="MenuItem_Exit_OnClick"/>
                 </MenuItem>
             </Menu>
+            <Label Content="{Binding TrackName}" />
             <Image Name="Image"/>
         </DockPanel>
     </Grid>
