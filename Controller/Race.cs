@@ -103,7 +103,12 @@ namespace Controller
             Console.WriteLine("test");
             foreach (IParticipant participant in Participants)
             {
+                BreakDownCar(participant);
+                
                 if (participant.Laps > MaxLaps)
+                    continue;
+
+                if (participant.Equipment.IsBroken)
                     continue;
 
                 Section section = _positions
@@ -155,7 +160,7 @@ namespace Controller
         {
             (bool finish, SectionData sectionData) = GetNextSectionData(section, speed);
 
-            if (finish)
+            if (finish && !participant.Equipment.IsBroken)
                 participant.Laps += 1;
             
             if (sectionData.Left == null)
@@ -186,27 +191,28 @@ namespace Controller
         {
             foreach (IParticipant driver in Participants)
             {
-                driver.Equipment.Performance = _random.Next(10, 15);
-                driver.Equipment.Speed = _random.Next(10, 15);
+                driver.Equipment.Performance = _random.Next(15, 20);
+                driver.Equipment.Speed = _random.Next(15, 20);
             }
         }
         
-        // private void BreakDownCar(IParticipant participant)
-        // {
-        //     int number = _random.Next(100);
-        //
-        //     IEquipment equipment = participant.Equipment;
-        //     if (number <= 5 )
-        //     {
-        //         equipment.IsBroken = true;
-        //         equipment.Performance -= 2;
-        //         equipment.Speed -= 2;
-        //     }
-        //     else
-        //     {
-        //         equipment.IsBroken = false;
-        //     }
-        // }
+        private void BreakDownCar(IParticipant participant)
+        {
+            int number = _random.Next(100);
+        
+            IEquipment equipment = participant.Equipment;
+            if (number <= 2 )
+            {
+                equipment.IsBroken = true;
+                equipment.Performance -= 1;
+                equipment.Speed -= 1;
+            }
+            else
+            {
+                if (number > 10) 
+                    equipment.IsBroken = false;
+            }
+        }
 
         private (bool, SectionData) GetNextSectionData(Section section, int position)
         {

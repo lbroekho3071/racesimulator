@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Media;
@@ -11,7 +12,7 @@ namespace WPF
     {
         private static Dictionary<string, Bitmap> _images = new Dictionary<string, Bitmap>();
 
-        private static Bitmap GetBitmap(string url)
+        public static Bitmap GetBitmap(string url)
         {
             if (!_images.ContainsKey(url)) _images.Add(url, new Bitmap(url));
 
@@ -23,7 +24,7 @@ namespace WPF
             _images.Clear();
         }
 
-        private static Bitmap GetEmptyBitmap(int x, int y)
+        public static Bitmap GetEmptyBitmap(int x, int y)
         {
             if (!_images.ContainsKey("empty")) _images.Add("empty", new Bitmap(x, y));
 

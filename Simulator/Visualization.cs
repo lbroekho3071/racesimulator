@@ -161,8 +161,7 @@ namespace Simulator
                     break;
             }
         }
-        
-        
+
         private static int Clamp( int value, int min, int max )
         {
             return (value < min) ? max : (value > max) ? min : value;
@@ -181,10 +180,13 @@ namespace Simulator
             
             if (Data.CurrentRace != null)
             {
-                Data.NextRace();
+                if (Data.Competition.Tracks.Count > 0)
+                {
+                    Data.NextRace();
                 
-                Initialize();
-                DrawTrack(Data.CurrentRace.Track);
+                    Initialize();
+                    DrawTrack(Data.CurrentRace.Track);
+                }
             }
         }
     }
