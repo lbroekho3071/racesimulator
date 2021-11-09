@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Timers;
 using Model.Classes;
@@ -26,7 +27,7 @@ namespace Controller
         {
             Track = track;
             Participants = participants;
-            MaxLaps = 10;
+            MaxLaps = 1;
 
             _random = new Random(DateTime.Now.Millisecond);
 
@@ -35,15 +36,6 @@ namespace Controller
 
             RandomizeEquipment();
             SetStartingPositions();
-        }
-
-        public Section GetSection(IParticipant participant)
-        {
-            Section section = _positions
-                .SingleOrDefault(item =>
-                    item.Value.Left == participant || item.Value.Right == participant).Key;
-
-            return section;
         }
 
         public SectionData GetSectionData(Section section)
@@ -73,7 +65,7 @@ namespace Controller
                 DriversChanged = null;
                 RaceFinished?.Invoke(this, new EventArgs());
             }
-
+            
             MoveParticipants();
 
             DriversChanged?.Invoke(this, new DriversChangedEventArgs
@@ -114,16 +106,16 @@ namespace Controller
                 if (participant.Laps > MaxLaps)
                     continue;
 
-                Section section = GetSection(participant);
+                Section section = _positions
+                    .SingleOrDefault(item =>
+                        item.Value.Left == participant || item.Value.Right == participant).Key;
+                
 
                 if (section != null)
                 {
                     SectionData sectionData = GetSectionData(section);
 
-                    int speed = participant.Equipment.Performance + participant.Equipment.Speed;
-
-                    if (section.SectionType == SectionTypes.Finish)
-                        participant.Laps += 1;
+                    int speed = participant.Equipment.Performance * participant.Equipment.Speed;
 
                     if (sectionData.Left == participant)
                     {
@@ -161,35 +153,44 @@ namespace Controller
 
         private bool MoveParticipantNextGrid(Section section, IParticipant participant, int speed)
         {
-            SectionData sectionData = GetNextSectionData(section, speed);
+            (bool finish, SectionData sectionData) = GetNextSectionData(section, speed);
 
+            if (finish)
+                participant.Laps += 1;
+            
             if (sectionData.Left == null)
             {
-                sectionData.Left = participant;
-                sectionData.DistanceLeft = speed - speed / 100 * 100;
-                
+                if (participant.Laps <= MaxLaps)
+                {
+                    sectionData.Left = participant;
+                    sectionData.DistanceLeft = speed - speed / 100 * 100;
+                }
+
                 return true;
             }
             if (sectionData.Right == null)
             {
-                sectionData.Right = participant;
-                sectionData.DistanceRight = speed - speed / 100 * 100;
-                
+                if (participant.Laps <= MaxLaps)
+                {
+                    sectionData.Right = participant;
+                    sectionData.DistanceRight = speed - speed / 100 * 100;
+                }
+
                 return true;
             }
 
             return false;
         }
-        
+
         private void RandomizeEquipment()
         {
-            foreach (var driver in Participants)
+            foreach (IParticipant driver in Participants)
             {
-                driver.Equipment.Performance = _random.Next(100);
-                driver.Equipment.Speed = _random.Next(100);
+                driver.Equipment.Performance = _random.Next(10, 15);
+                driver.Equipment.Speed = _random.Next(10, 15);
             }
         }
-        //
+        
         // private void BreakDownCar(IParticipant participant)
         // {
         //     int number = _random.Next(100);
@@ -207,14 +208,21 @@ namespace Controller
         //     }
         // }
 
-        private SectionData GetNextSectionData(Section section, int position)
+        private (bool, SectionData) GetNextSectionData(Section section, int position)
         {
-            int index = Track.Sections.ToList().IndexOf(section) + position / 100;
+            List<Section> tracks = Track.Sections.ToList();
+
+            int index = tracks.IndexOf(section) + position / 100;
 
             if (index < Track.Sections.Count)
-                return GetSectionData(Track.Sections.ToList().ElementAt(index));
+            {
+                int lastIndex = index - position / 100;
 
-            return GetSectionData(Track.Sections.ToList().ElementAt(index - Track.Sections.Count));
+                return (tracks.GetRange(lastIndex, index - lastIndex)
+                    .Exists(item => item.SectionType == SectionTypes.Finish), GetSectionData(tracks.ElementAt(index)));
+            }
+
+            return (false, GetSectionData(tracks.ElementAt(index - Track.Sections.Count)));
         }
     }
 }
