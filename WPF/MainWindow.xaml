@@ -8,6 +8,14 @@
         Title="MainWindow" Height="1000" Width="1000">
     <Grid>
         <DockPanel>
+            <Menu DockPanel.Dock="Top" Height="20" VerticalAlignment="Top">
+                <MenuItem Header="_Statistics">
+                    <MenuItem Header="_Competition" Click="MenuItem_Competition_Click"/>
+                    <MenuItem Header="_Race" Click="MenuItem_Race_Click"/>
+                    <Separator/>
+                    <MenuItem Header="_Exit" Click="MenuItem_Exit_OnClick"/>
+                </MenuItem>
+            </Menu>
             <Image Name="Image"/>
         </DockPanel>
     </Grid>

@@ -23,7 +23,8 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        private CompetitionStatistics _competitionStatistics;
+        private RaceStatistics _raceStatistics;
         
         public MainWindow()
         {
@@ -75,6 +76,21 @@ namespace WPF
                 this.Image.Source = null;
                 this.Image.Source = Visualization.DrawTrack(track);
             }));
+        }
+
+        private void MenuItem_Competition_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MenuItem_Race_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MenuItem_Exit_OnClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
