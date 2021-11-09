@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Controller;
+using Model.Classes;
+using DispatcherPriority = System.Windows.Threading.DispatcherPriority;
 
 namespace WPF
 {
@@ -20,9 +23,31 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        
+        
         public MainWindow()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+                Data.Initialize();
+                Data.NextRace();
+
+                Data.CurrentRace.DriversChanged += OnDriversChanged;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public void OnDriversChanged(object obj, DriversChangedEventArgs args)
+        {
+            this.Image.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                this.Image.Source = null;
+                this.Image.Source = Visualization.DrawTrack(args.Track);
+            }));
         }
     }
 }
