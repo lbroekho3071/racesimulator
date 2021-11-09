@@ -27,26 +27,53 @@ namespace WPF
         
         public MainWindow()
         {
-            try
-            {
-                InitializeComponent();
-                Data.Initialize();
-                Data.NextRace();
+            InitializeComponent();
+            Data.Initialize();
+            Data.NextRace();
 
-                Data.CurrentRace.DriversChanged += OnDriversChanged;
-            }
-            catch (Exception e)
+            SetEvents();
+        }
+
+        public void SetEvents()
+        {
+            Data.CurrentRace.DriversChanged += OnDriversChanged;
+            Data.CurrentRace.RaceFinished += OnRaceFinished;
+        }
+
+        public void ClearEvents()
+        {
+            Data.CurrentRace.DriversChanged -= OnDriversChanged;
+            Data.CurrentRace.RaceFinished -= OnRaceFinished;
+        }
+        
+        public void OnDriversChanged(object obj, DriversChangedEventArgs args)
+        {
+            DisplayTrack(args.Track);
+        }
+
+        public void OnRaceFinished(object obj, EventArgs args)
+        {
+            ClearEvents();
+            WPF.Image.ClearCache();
+            
+            if (Data.CurrentRace != null)
             {
-                Console.WriteLine(e);
+                if (Data.Competition.Tracks.Count > 0)
+                {
+                    Data.NextRace();
+                    SetEvents();
+                    
+                    DisplayTrack(Data.CurrentRace.Track);
+                }
             }
         }
 
-        public void OnDriversChanged(object obj, DriversChangedEventArgs args)
+        public void DisplayTrack(Track track)
         {
             this.Image.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 this.Image.Source = null;
-                this.Image.Source = Visualization.DrawTrack(args.Track);
+                this.Image.Source = Visualization.DrawTrack(track);
             }));
         }
     }

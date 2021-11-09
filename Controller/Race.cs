@@ -100,7 +100,6 @@ namespace Controller
 
         private void MoveParticipants()
         {
-            Console.WriteLine("test");
             foreach (IParticipant participant in Participants)
             {
                 BreakDownCar(participant);

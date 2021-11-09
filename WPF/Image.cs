@@ -20,7 +20,7 @@ namespace WPF
             return (Bitmap)_images[url].Clone();
         }
 
-        private static void ClearDictionary()
+        public static void ClearCache()
         {
             _images.Clear();
         }
