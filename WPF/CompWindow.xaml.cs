@@ -5,12 +5,12 @@ using Model.Classes;
 
 namespace WPF
 {
-    public partial class RaceWindow : Window
+    public partial class CompWindow : Window
     {
-        public RaceWindow()
+        public CompWindow()
         {
             InitializeComponent();
-
+            
             Data.CurrentRace.RaceFinished += OnRaceFinish;
             
             Dispatcher.Invoke(() =>
@@ -18,7 +18,7 @@ namespace WPF
                 Data.CurrentRace.DriversChanged += ((DataContext) this.DataContext).OnDriversChanged;
             });
         }
-
+        
         public void OnRaceFinish(object sender, EventArgs args)
         {
             Dispatcher.Invoke(() =>

@@ -59,7 +59,9 @@ namespace Controller
             {
                 for (int i = 0; i < Participants.Count; i++)
                 {
+                    Participants[i].BrokenCount = 0;
                     Participants[i].Laps = 0;
+                    Participants[i].Finished = false;
                 }
 
                 DriversChanged = null;
@@ -105,8 +107,8 @@ namespace Controller
             foreach (IParticipant participant in Participants)
             {
                 BreakDownCar(participant);
-                
-                if (participant.Laps > MaxLaps)
+
+                if (participant.Laps > MaxLaps) 
                     continue;
 
                 if (participant.Equipment.IsBroken)
@@ -159,10 +161,16 @@ namespace Controller
 
         private bool MoveParticipantNextGrid(Section section, IParticipant participant, int speed)
         {
-            (bool finish, SectionData sectionData) = GetNextSectionData(section, speed);
+            (bool finish, SectionData sectionData) = GetNextSectionData(section, speed, participant);
 
             if (finish && !participant.Equipment.IsBroken)
                 participant.Laps += 1;
+            
+            if (participant.Laps > MaxLaps && !participant.Finished)
+            {
+                participant.Points += 25 - Participants.Count(item => item.Finished) * 5;
+                participant.Finished = true;
+            }
             
             if (sectionData.Left == null)
             {
@@ -204,6 +212,7 @@ namespace Controller
             IEquipment equipment = participant.Equipment;
             if (number <= 2 )
             {
+                participant.BrokenCount += 1;
                 equipment.IsBroken = true;
                 equipment.Performance -= 1;
                 equipment.Speed -= 1;
@@ -215,7 +224,7 @@ namespace Controller
             }
         }
 
-        private (bool, SectionData) GetNextSectionData(Section section, int position)
+        private (bool, SectionData) GetNextSectionData(Section section, int position, IParticipant participant)
         {
             List<Section> tracks = Track.Sections.ToList();
 

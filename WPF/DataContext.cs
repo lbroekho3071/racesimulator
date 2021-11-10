@@ -1,25 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using Controller;
 using Model.Interfaces;
 
 namespace Model.Classes
 {
     public class DataContext : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        public string TrackName { get; set; }
-        public int MaxLaps { get; set; }
+        public string TrackName => Data.CurrentRace.Track.Name;
+        public List<Driver> Participants => Data.Competition.Participants.Select(p => (Driver)p).ToList();
 
-        public List<IParticipant> Participants;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public DataContext()
+        {
+            if (Data.CurrentRace != null)
+                Data.CurrentRace.DriversChanged += OnDriversChanged;
+        }
 
         public void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
-            TrackName = e.Track.Name;
-            MaxLaps = e.MaxLaps;
-            Participants = e.Participants;
-
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
         }
     }

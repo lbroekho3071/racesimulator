@@ -23,6 +23,7 @@ namespace NUnit_Tests
         public void NextRace_EmptySet_ReturnNull()
         {
             Data.NextRace();
+            Data.NextRace();
 
             Assert.IsNull(Data.CurrentRace);
         }

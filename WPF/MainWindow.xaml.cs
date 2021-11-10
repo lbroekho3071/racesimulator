@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Controller;
 using Model.Classes;
@@ -8,14 +9,11 @@ namespace WPF
 {
     public partial class MainWindow : Window
     {
-        private RaceWindow _raceWindow;
-        // private 
+        
         
         public MainWindow()
         {
             InitializeComponent();
-            
-            _raceWindow = new RaceWindow();
 
             Data.Initialize();
             Data.NextRace();
@@ -37,10 +35,10 @@ namespace WPF
         {
             Data.CurrentRace.DriversChanged += OnDriversChanged;
             Data.CurrentRace.RaceFinished += OnRaceFinished;
-
+            
             Dispatcher.Invoke(() =>
             {
-                Data.CurrentRace.DriversChanged += ((DataContext) DataContext).OnDriversChanged;
+                Data.CurrentRace.DriversChanged += ((DataContext) this.DataContext).OnDriversChanged;
             });
         }
 
@@ -71,12 +69,16 @@ namespace WPF
 
         private void MenuItem_Competition_Click(object sender, RoutedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            CompWindow compWindow = new CompWindow();
+            
+            compWindow.Show();
         }
 
         private void MenuItem_Race_Click(object sender, RoutedEventArgs e)
         {
-            _raceWindow.Show();
+            RaceWindow raceWindow = new RaceWindow();
+            
+            raceWindow.Show();
         }
 
         private void MenuItem_Exit_OnClick(object sender, RoutedEventArgs e)
