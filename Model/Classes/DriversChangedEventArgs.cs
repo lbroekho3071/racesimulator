@@ -7,6 +7,7 @@ namespace Model.Classes
     public class DriversChangedEventArgs : EventArgs
     {
         public Track Track { get; set; }
+        public int MaxLaps { get; set; }
         public List<IParticipant> Participants { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using Model.Enums;
 using NUnit.Framework;
 
-namespace NUnit_Test
+namespace NUnit_Tests
 {
     [TestFixture]
     public class Model_Competition_NextTrackShould

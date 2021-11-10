@@ -1,12 +1,17 @@
-﻿<Window x:Class="WPF.RaceStatistics"
+﻿<Window x:Class="WPF.RaceWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
-        Title="RaceStatistics" Height="450" Width="800">
+        Title="RaceWindow" Height="450" Width="800">
     <Grid>
-        
+        <Label Content="Finished Participants"/>
+        <ListView Name="FinishedList">
+            <GridView>
+                <GridViewColumn Header="Participant" DisplayMemberBinding="{Binding }"/>
+            </GridView>
+        </ListView>
     </Grid>
 </Window>

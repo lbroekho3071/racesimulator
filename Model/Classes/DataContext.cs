@@ -10,13 +10,16 @@ namespace Model.Classes
         public event PropertyChangedEventHandler PropertyChanged;
         
         public string TrackName { get; set; }
-        public List<IParticipant> Participants { get; set; }
+        public int MaxLaps { get; set; }
+
+        public List<IParticipant> Participants;
 
         public void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
             TrackName = e.Track.Name;
+            MaxLaps = e.MaxLaps;
             Participants = e.Participants;
-            
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
         }
     }

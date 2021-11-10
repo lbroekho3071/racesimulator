@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Model.Classes;
 using Model.Enums;
 using Model.Interfaces;
@@ -72,7 +73,11 @@ namespace Controller
         {
             Track track = Competition.NextTrack();
 
-            if (track == null) return;
+            if (track == null)
+            {
+                CurrentRace = null;
+                return;
+            }
 
             CurrentRace = new Race(track, Competition.Participants);
             

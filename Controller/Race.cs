@@ -27,7 +27,7 @@ namespace Controller
         {
             Track = track;
             Participants = participants;
-            MaxLaps = 1;
+            MaxLaps = 3;
 
             _random = new Random(DateTime.Now.Millisecond);
 
@@ -71,6 +71,7 @@ namespace Controller
             DriversChanged?.Invoke(this, new DriversChangedEventArgs
             {
                 Track = Track,
+                MaxLaps = MaxLaps,
                 Participants = Participants
             });
         }

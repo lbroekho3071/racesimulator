@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Net.Mime;
 using System.Windows.Media.Imaging;
 using Controller;
 using Model.Classes;

@@ -1,103 +1,82 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 using Controller;
 using Model.Classes;
-using DispatcherPriority = System.Windows.Threading.DispatcherPriority;
 
 namespace WPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private CompetitionStatistics _competitionStatistics;
-        private RaceStatistics _raceStatistics;
-
+        private RaceWindow _raceWindow;
+        // private 
+        
         public MainWindow()
         {
             InitializeComponent();
+            
+            _raceWindow = new RaceWindow();
+
             Data.Initialize();
             Data.NextRace();
-
-
+            
             SetEvents();
         }
 
-        public void SetEvents()
+        private void ShowTrack(Track track)
+        {
+            TrackImage.Dispatcher.BeginInvoke(
+                DispatcherPriority.Render, new Action( () =>
+                {
+                    TrackImage.Source = null;
+                    TrackImage.Source = Visualization.DrawTrack(track);
+                }));
+        }
+
+        private void SetEvents()
         {
             Data.CurrentRace.DriversChanged += OnDriversChanged;
             Data.CurrentRace.RaceFinished += OnRaceFinished;
 
             Dispatcher.Invoke(() =>
             {
-                Data.CurrentRace.DriversChanged += ((DataContext)DataContext).OnDriversChanged;
+                Data.CurrentRace.DriversChanged += ((DataContext) DataContext).OnDriversChanged;
             });
         }
 
-        public void ClearEvents()
+        private void ClearEvents()
         {
             Data.CurrentRace.DriversChanged -= OnDriversChanged;
             Data.CurrentRace.RaceFinished -= OnRaceFinished;
+        } 
+
+        private void OnDriversChanged(object sender, DriversChangedEventArgs args)
+        {
+            ShowTrack(args.Track);
         }
         
-        public void OnDriversChanged(object obj, DriversChangedEventArgs args)
-        {
-            DisplayTrack(args.Track);
-        }
-
-        public void OnRaceFinished(object obj, EventArgs args)
+        private void OnRaceFinished(object sender, EventArgs e)
         {
             ClearEvents();
-            WPF.Image.ClearCache();
+            Image.ClearCache();
             
+            Data.NextRace();
+
             if (Data.CurrentRace != null)
             {
-                if (Data.Competition.Tracks.Count > 0)
-                {
-                    Data.NextRace();
-                    SetEvents();
-                    
-                    DisplayTrack(Data.CurrentRace.Track);
-                }
+                SetEvents();
+                ShowTrack(Data.CurrentRace.Track);
             }
-        }
-
-        public void DisplayTrack(Track track)
-        {
-            this.Image.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-            {
-                this.Image.Source = null;
-                this.Image.Source = Visualization.DrawTrack(track);
-            }));
         }
 
         private void MenuItem_Competition_Click(object sender, RoutedEventArgs e)
         {
-            if (_competitionStatistics == null)
-                _competitionStatistics = new CompetitionStatistics();
-            
-            _competitionStatistics.Show();
+            throw new System.NotImplementedException();
         }
 
         private void MenuItem_Race_Click(object sender, RoutedEventArgs e)
         {
-            if (_raceStatistics == null)
-                _raceStatistics = new RaceStatistics();
-            
-            _raceStatistics.Show();
+            _raceWindow.Show();
         }
 
         private void MenuItem_Exit_OnClick(object sender, RoutedEventArgs e)
