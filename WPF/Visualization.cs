@@ -62,7 +62,7 @@ namespace WPF
             return Image.CreateBitmapSourceFromGdiBitmap(bitmap);
         }
 
-        private static Bitmap GetSectionVisual(Section section)
+        public static Bitmap GetSectionVisual(Section section)
         {
             switch (section.SectionType)
             {
@@ -132,7 +132,7 @@ namespace WPF
             }
         }
 
-        private static Point GetMaxSize(Track track)
+        public static Point GetMaxSize(Track track)
         {
             Point point = new Point(20, 0);
 
@@ -151,7 +151,7 @@ namespace WPF
             return point;
         }
         
-        private static void SetPosition()
+        public static void SetPosition()
         {
             switch (Direction)
             {
@@ -170,7 +170,7 @@ namespace WPF
             }
         }
         
-        private static void SetDirection(Section section)
+        public static void SetDirection(Section section)
         {
             switch (section.SectionType)
             {
@@ -183,7 +183,7 @@ namespace WPF
             }
         }
 
-        private static int Clamp( int value, int min, int max )
+        public static int Clamp( int value, int min, int max )
         {
             return (value < min) ? max : (value > max) ? min : value;
         }

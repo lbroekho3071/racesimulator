@@ -14,9 +14,16 @@ namespace WPF
 
         public static Bitmap GetBitmap(string url)
         {
-            if (!_images.ContainsKey(url)) _images.Add(url, new Bitmap(url));
+            try
+            {
+                if (!_images.ContainsKey(url)) _images.Add(url, new Bitmap(url));
 
-            return (Bitmap)_images[url].Clone();
+                return (Bitmap) _images[url].Clone();
+            }
+            catch (ArgumentException)
+            {
+                return null;
+            }
         }
 
         public static void ClearCache()

@@ -19,7 +19,7 @@ namespace Controller
             AddTracks();
         }
 
-        private static void AddParticipants()
+        public static void AddParticipants()
         {
             foreach (TeamColors color in Enum.GetValues(typeof(TeamColors)))
             {
@@ -32,7 +32,7 @@ namespace Controller
             }
         }
 
-        private static void AddTracks()
+        public static void AddTracks()
         {
             Competition.Tracks.Enqueue(new Track("Test", new []
             {

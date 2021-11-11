@@ -21,10 +21,13 @@ namespace WPF
         
         public void OnRaceFinish(object sender, EventArgs args)
         {
-            Dispatcher.Invoke(() =>
+            if (Data.CurrentRace != null)
             {
-                Data.CurrentRace.DriversChanged += ((DataContext) this.DataContext).OnDriversChanged;
-            });
+                Dispatcher.Invoke(() =>
+                {
+                    Data.CurrentRace.DriversChanged += ((DataContext) this.DataContext).OnDriversChanged;
+                });
+            }
         }
     }
 }

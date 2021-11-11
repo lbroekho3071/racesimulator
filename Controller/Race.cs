@@ -40,6 +40,9 @@ namespace Controller
 
         public SectionData GetSectionData(Section section)
         {
+            if (section == null)
+                return null;
+            
             if (_positions.ContainsKey(section)) return _positions[section];
 
             var data = new SectionData();
@@ -53,7 +56,7 @@ namespace Controller
             _timer.Start();
         }
 
-        private void OnTimedEvent(object obj, EventArgs args)
+        public void OnTimedEvent(object obj, EventArgs args)
         {
             if (Participants.Count(item => item.Laps > MaxLaps) == Participants.Count)
             {
@@ -159,9 +162,12 @@ namespace Controller
             }
         }
 
-        private bool MoveParticipantNextGrid(Section section, IParticipant participant, int speed)
+        private bool MoveParticipantNextGrid(Section section, IParticipant participant, int position)
         {
-            (bool finish, SectionData sectionData) = GetNextSectionData(section, speed, participant);
+            int index = GetIndexOfSection(section, position);
+            
+            SectionData sectionData = GetNextSectionData(index, position);
+            bool finish = CrossedFinishSection(index, position);
 
             if (finish && !participant.Equipment.IsBroken)
                 participant.Laps += 1;
@@ -177,7 +183,7 @@ namespace Controller
                 if (participant.Laps <= MaxLaps)
                 {
                     sectionData.Left = participant;
-                    sectionData.DistanceLeft = speed - speed / 100 * 100;
+                    sectionData.DistanceLeft = position - position / 100 * 100;
                 }
 
                 return true;
@@ -187,7 +193,7 @@ namespace Controller
                 if (participant.Laps <= MaxLaps)
                 {
                     sectionData.Right = participant;
-                    sectionData.DistanceRight = speed - speed / 100 * 100;
+                    sectionData.DistanceRight = position - position / 100 * 100;
                 }
 
                 return true;
@@ -224,21 +230,29 @@ namespace Controller
             }
         }
 
-        private (bool, SectionData) GetNextSectionData(Section section, int position, IParticipant participant)
+        public SectionData GetNextSectionData(int index, int position)
         {
             List<Section> tracks = Track.Sections.ToList();
 
-            int index = tracks.IndexOf(section) + position / 100;
+            return GetSectionData(tracks.ElementAt(index));
+        }
+
+        public int GetIndexOfSection(Section section, int position)
+        {
+            int index = Track.Sections.ToList().IndexOf(section) + position / 100;
 
             if (index < Track.Sections.Count)
-            {
-                int lastIndex = index - position / 100;
+                return index;
 
-                return (tracks.GetRange(lastIndex, index - lastIndex)
-                    .Exists(item => item.SectionType == SectionTypes.Finish), GetSectionData(tracks.ElementAt(index)));
-            }
+            return index - Track.Sections.Count;
+        }
 
-            return (false, GetSectionData(tracks.ElementAt(index - Track.Sections.Count)));
+        public bool CrossedFinishSection(int index, int position)
+        {
+            int lastIndex = index - position / 100 >= 0 ? index - position / 100 : index;
+            
+            return Track.Sections.ToList().GetRange(lastIndex, index - lastIndex)
+                .Exists(item => item.SectionType == SectionTypes.Finish);
         }
     }
 }
