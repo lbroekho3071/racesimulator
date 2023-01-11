@@ -2,10 +2,11 @@ namespace Model.Enums
 {
     public enum TeamColors
     {
-        Red,
+        Blue,
         Green,
+        Orange,
+        Pink,
+        Red,
         Yellow,
-        Grey,
-        Blue
     }
 }

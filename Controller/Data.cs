@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Model.Classes;
 using Model.Enums;
 using Model.Interfaces;
@@ -18,15 +19,20 @@ namespace Controller
             AddTracks();
         }
 
-        private static void AddParticipants()
+        public static void AddParticipants()
         {
             foreach (TeamColors color in Enum.GetValues(typeof(TeamColors)))
             {
-                Competition.Participants.Add(new Driver(color.ToString(), new Car(), color));
+                Competition.Participants.Add(new Driver
+                {
+                    Name = color.ToString(),
+                    Equipment = new Car(),
+                    TeamColor = color
+                });
             }
         }
 
-        private static void AddTracks()
+        public static void AddTracks()
         {
             Competition.Tracks.Enqueue(new Track("Test", new []
             {
@@ -34,33 +40,19 @@ namespace Controller
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
                 SectionTypes.Finish,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.LeftCorner,
-                SectionTypes.LeftCorner,
-                SectionTypes.RightCorner,
                 SectionTypes.RightCorner,
                 SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
                 SectionTypes.RightCorner,
-                SectionTypes.LeftCorner,
-                SectionTypes.RightCorner,
-                SectionTypes.RightCorner,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
             }));
             
-            Competition.Tracks.Enqueue(new Track("Rondje", new []
+            Competition.Tracks.Enqueue(new Track("kleiner rondje", new []
             {
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
@@ -81,9 +73,15 @@ namespace Controller
         {
             Track track = Competition.NextTrack();
 
-            if (track == null) return;
+            if (track == null)
+            {
+                CurrentRace = null;
+                return;
+            }
 
             CurrentRace = new Race(track, Competition.Participants);
+            
+            CurrentRace.Start();
         }
     }
 }
