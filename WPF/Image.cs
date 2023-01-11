@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -36,6 +37,11 @@ namespace WPF
             if (!_images.ContainsKey("empty")) _images.Add("empty", new Bitmap(x, y));
 
             return (Bitmap)_images["empty"].Clone();
+        }
+
+        public static bool ContainsBitmap(string key)
+        {
+            return _images.ContainsKey(key);
         }
         
         public static BitmapSource CreateBitmapSourceFromGdiBitmap(Bitmap bitmap)
