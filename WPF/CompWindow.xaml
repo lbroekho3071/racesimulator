@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="CompWindow" Height="450" Width="800">
     <Window.DataContext>
-        <classes:DataContext/>
+        <local:DataContext/>
     </Window.DataContext>
     <Grid>
         <TextBlock Text="Points"/>

@@ -9,14 +9,12 @@ namespace WPF
 {
     public partial class MainWindow : Window
     {
-        
-        
         public MainWindow()
         {
-            InitializeComponent();
-
             Data.Initialize();
             Data.NextRace();
+            
+            InitializeComponent();
             
             SetEvents();
         }
@@ -38,7 +36,7 @@ namespace WPF
             
             Dispatcher.Invoke(() =>
             {
-                Data.CurrentRace.DriversChanged += ((DataContext) this.DataContext).OnDriversChanged;
+                Data.CurrentRace.DriversChanged += ((DataContext) DataContext).OnDriversChanged;
             });
         }
 

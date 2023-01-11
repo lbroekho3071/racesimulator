@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Controller;
-using Model.Interfaces;
+using Model.Classes;
 
-namespace Model.Classes
+namespace WPF
 {
     public class DataContext : INotifyPropertyChanged
     {
@@ -18,7 +17,9 @@ namespace Model.Classes
         public DataContext()
         {
             if (Data.CurrentRace != null)
+            {
                 Data.CurrentRace.DriversChanged += OnDriversChanged;
+            }
         }
 
         public void OnDriversChanged(object sender, DriversChangedEventArgs e)

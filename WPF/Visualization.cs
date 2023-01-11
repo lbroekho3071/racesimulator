@@ -15,19 +15,19 @@ namespace WPF
         public static Point MaxSize = new Point(3, 0);
         
         #region graphics
-        private const string StraightHorizontal = @"E:\Documenten\School\Windesheim\Jaar2\Semester1\Periode1\C#\RaceSimulator\WPF\resources\Sections\StraightHorizontal.png";
-        private const string StraightVertical = @"E:\Documenten\School\Windesheim\Jaar2\Semester1\Periode1\C#\RaceSimulator\WPF\resources\Sections\StraightVertical.png";
+        private const string StraightHorizontal = @"C:\Users\luukb\Documents\School\racesimulator\WPF\resources\Sections\StraightHorizontal.png";
+        private const string StraightVertical = @"C:\Users\luukb\Documents\School\racesimulator\WPF\resources\Sections\StraightVertical.png";
 
-        private const string CornerNorthWest = @"E:\Documenten\School\Windesheim\Jaar2\Semester1\Periode1\C#\RaceSimulator\WPF\resources\Sections\CornerNW.png";
-        private const string CornerNorthEast = @"E:\Documenten\School\Windesheim\Jaar2\Semester1\Periode1\C#\RaceSimulator\WPF\resources\Sections\CornerNE.png";
-        private const string CornerSouthWest = @"E:\Documenten\School\Windesheim\Jaar2\Semester1\Periode1\C#\RaceSimulator\WPF\resources\Sections\CornerSW.png";
-        private const string CornerSouthEast = @"E:\Documenten\School\Windesheim\Jaar2\Semester1\Periode1\C#\RaceSimulator\WPF\resources\Sections\CornerSE.png";
+        private const string CornerNorthWest = @"C:\Users\luukb\Documents\School\racesimulator\WPF\resources\Sections\CornerNW.png";
+        private const string CornerNorthEast = @"C:\Users\luukb\Documents\School\racesimulator\WPF\resources\Sections\CornerNE.png";
+        private const string CornerSouthWest = @"C:\Users\luukb\Documents\School\racesimulator\WPF\resources\Sections\CornerSW.png";
+        private const string CornerSouthEast = @"C:\Users\luukb\Documents\School\racesimulator\WPF\resources\Sections\CornerSE.png";
 
-        private const string StartGrid = @"E:\Documenten\School\Windesheim\Jaar2\Semester1\Periode1\C#\RaceSimulator\WPF\resources\Sections\StartGrid.png";
+        private const string StartGrid = @"C:\Users\luukb\Documents\School\racesimulator\WPF\resources\Sections\StartGrid.png";
         
-        private const string Finish = @"E:\Documenten\School\Windesheim\Jaar2\Semester1\Periode1\C#\RaceSimulator\WPF\resources\Sections\Finish.png";
+        private const string Finish = @"C:\Users\luukb\Documents\School\racesimulator\WPF\resources\Sections\Finish.png";
 
-        private const string Player = @"E:\Documenten\School\Windesheim\Jaar2\Semester1\Periode1\C#\RaceSimulator\WPF\resources\Cars";
+        private const string Player = @"C:\Users\luukb\Documents\School\racesimulator\WPF\resources\Cars";
         #endregion
 
         public static BitmapSource DrawTrack(Track track)
