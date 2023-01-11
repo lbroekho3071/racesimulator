@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Net.Mime;
 using NUnit.Framework;
 using Image = WPF.Image;
 

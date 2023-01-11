@@ -43,12 +43,17 @@ namespace Controller
             if (section == null)
                 return null;
             
-            if (_positions.ContainsKey(section)) return _positions[section];
+            if (HasSectionData(section)) return _positions[section];
 
             var data = new SectionData();
             _positions.Add(section, data);
 
             return data;
+        }
+
+        public bool HasSectionData(Section section)
+        {
+            return _positions.ContainsKey(section);
         }
 
         public void Start()
@@ -253,28 +258,6 @@ namespace Controller
             
             return Track.Sections.ToList().GetRange(lastIndex, index - lastIndex)
                 .Exists(item => item.SectionType == SectionTypes.Finish);
-        }
-        
-        public int SetDirection(Section section, int direction)
-        {
-            SectionTypes type = section.SectionType;
-
-            switch (type)
-            {
-                case SectionTypes.LeftCorner:
-                    section.Direction = Clamp(direction - 1, 0, 3);
-                    return section.Direction;
-                case SectionTypes.RightCorner:
-                    section.Direction = Clamp(direction + 1, 0, 3);
-                    return section.Direction;
-                default:
-                    return direction;
-            }
-        }
-        
-        private int Clamp( int value, int min, int max )
-        {
-            return (value < min) ? max : (value > max) ? min : value;
         }
     }
 }

@@ -20,9 +20,34 @@ namespace NUnit_Tests
         [Test]
         public void GetSectionData_ExistingSection_ReturnSectionData()
         {
-            SectionData sectionData = Data.CurrentRace.GetSectionData(Data.CurrentRace.Track.Sections.ElementAt(1));
+            Section section = Data.CurrentRace.Track.Sections.ElementAt(1);
+            
+            Assert.IsTrue(Data.CurrentRace.HasSectionData(section));
+            
+            SectionData sectionData = Data.CurrentRace.GetSectionData(section);
             
             Assert.IsNotNull(sectionData);
+        }
+
+        [Test]
+        public void GetSectionData_NonExistingSection_ReturnSectionData()
+        {
+            Section section = Data.CurrentRace.Track.Sections.ElementAt(5);
+            
+            Assert.IsFalse(Data.CurrentRace.HasSectionData(section));
+
+            SectionData sectionData = Data.CurrentRace.GetSectionData(section);
+            
+            Assert.IsNotNull(sectionData);
+            Assert.IsTrue(Data.CurrentRace.HasSectionData(section));
+        }
+
+        [Test]
+        public void GetSectionData_NullSection_ReturnNull()
+        {
+            SectionData sectionData = Data.CurrentRace.GetSectionData(null);
+            
+            Assert.IsNull(sectionData);
         }
     }
 }
